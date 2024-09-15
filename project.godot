@@ -14,6 +14,11 @@ config/name="Riftwalker"
 config/features=PackedStringArray("4.3", "C#", "Forward Plus")
 config/icon="res://icon.svg"
 
+[display]
+
+window/size/viewport_width=480
+window/size/viewport_height=270
+
 [dotnet]
 
 project/assembly_name="Riftwalker"
