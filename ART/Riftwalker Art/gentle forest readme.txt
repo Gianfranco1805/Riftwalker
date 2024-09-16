@@ -38,4 +38,3 @@ If you need any help figuring things out, have any questions, or just want to se
 https://www.patreon.com/selieltheshaper
 https://ko-fi.com/selieltheshaper
 https://twitter.com/SelieltheShaper
-
