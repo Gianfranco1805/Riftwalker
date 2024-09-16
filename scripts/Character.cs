@@ -11,5 +11,24 @@ public partial class Character : Sprite2D
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+		int baseSpeed = 5;
+		if (Input.IsKeyPressed(Key.W))
+		{
+			this.Position += new Vector2(0, -baseSpeed);
+		}
+		if (Input.IsKeyPressed(Key.S))
+		{
+			this.Position += new Vector2(0, baseSpeed);
+		}
+		if (Input.IsKeyPressed(Key.A))
+		{
+			this.Position += new Vector2(-baseSpeed, 0);
+		}
+		if (Input.IsKeyPressed(Key.D))
+		{
+			this.Position += new Vector2(baseSpeed, 0);
+		}
+
+
 	}
 }
