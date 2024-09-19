@@ -100,7 +100,7 @@ func make_map():
 	var bottomRight = map.local_to_map(fullRectangle.end)
 	for x in range(topLeft.x, bottomRight.x):
 		for y in range(topLeft.y, bottomRight.y):
-			map.set_cell(0, Vector2i(x, y), 1, Vector2i(0,0), 0)
+			map.set_cell(0, Vector2i(x, y), 13, Vector2i(0,0), 0)
 	#carve the rooms
 	var corridors = [] #one corridor per connection
 	for room in $Rooms.get_children():
@@ -109,7 +109,7 @@ func make_map():
 		var ul = (room.position / tileSize).floor() - s
 		for x in range(2, s.x * 2 - 1):
 			for y in range(2, s.y * 2 - 1):	
-				map.set_cell(0, Vector2i(ul.x + x, ul.y + y), 0, Vector2i(0, 0), 0) 
+				map.set_cell(0, Vector2i(ul.x + x, ul.y + y), 12, Vector2i(0, 0), 0) 
 		#carve the connection
 		var p = path.get_closest_point(Vector2(room.position.x, room.position.y))
 		for conn in path.get_point_connections(p):
@@ -134,8 +134,8 @@ func carve_path(pos1, pos2):
 		xY = pos2
 		yX = pos1
 	for x in range(pos1.x, pos2.x, xDiff):
-		map.set_cell(0, Vector2i(x, xY.y), 0, Vector2i(0, 0), 0)
-		map.set_cell(0, Vector2i(x, xY.y + yDiff), 0, Vector2i(0, 0), 0) #widen the corridors
+		map.set_cell(0, Vector2i(x, xY.y), 12, Vector2i(0, 0), 0)
+		map.set_cell(0, Vector2i(x, xY.y + yDiff), 12, Vector2i(0, 0), 0) #widen the corridors
 	for y in range(pos1.y, pos2.y, yDiff):
-		map.set_cell(0, Vector2i(yX.x, y), 0, Vector2i(0, 0), 0)
-		map.set_cell(0, Vector2i(yX.x + xDiff, y), 0, Vector2i(0, 0), 0)
+		map.set_cell(0, Vector2i(yX.x, y), 12, Vector2i(0, 0), 0)
+		map.set_cell(0, Vector2i(yX.x + xDiff, y), 12, Vector2i(0, 0), 0)

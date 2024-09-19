@@ -1,10 +1,12 @@
-[gd_resource type="TileSet" load_steps=23 format=3 uid="uid://dp4x5x2a1xjyd"]
+[gd_resource type="TileSet" load_steps=27 format=3 uid="uid://dp4x5x2a1xjyd"]
 
 [ext_resource type="Texture2D" uid="uid://bhixih3atq18e" path="res://ART/Riftwalker Art/gentle sheets/gentle forest v02.png" id="1_f3mgn"]
 [ext_resource type="Texture2D" uid="uid://bu80etf2k531t" path="res://ART/Riftwalker Art/gentle sheets/gentle forest v01.png" id="2_s8hol"]
 [ext_resource type="Texture2D" uid="uid://llj65388oi42" path="res://ART/Riftwalker Art/gentle sheets/gentle trees 80x96 v02.png" id="3_p3f08"]
 [ext_resource type="Texture2D" uid="uid://cbwrplesx6e20" path="res://ART/Riftwalker Art/gentle sheets/gentle trees 80x96 v01.png" id="4_oruww"]
+[ext_resource type="Texture2D" uid="uid://dclqgq8sa2ube" path="res://grass only texture.png" id="5_77bbh"]
 [ext_resource type="Texture2D" uid="uid://brto1yjojlbgm" path="res://ART/Riftwalker Art/gentle sheets/gentle forest v03.png" id="5_rvqv3"]
+[ext_resource type="Texture2D" uid="uid://f6tp7iiswm6o" path="res://all water texture.png" id="6_v1yyw"]
 [ext_resource type="Texture2D" uid="uid://d0i667865dtw1" path="res://ART/Riftwalker Art/gentle sheets/gentle 32x32 v03.png" id="6_vhcyb"]
 [ext_resource type="Texture2D" uid="uid://cr27n5lju7agv" path="res://ART/Riftwalker Art/gentle sheets/gentle 32x32 v02.png" id="7_cbodd"]
 [ext_resource type="Texture2D" uid="uid://dfip7jn56tmbd" path="res://ART/Riftwalker Art/gentle sheets/gentle 32x32 v01.png" id="8_5h0ee"]
@@ -710,6 +712,142 @@ texture = ExtResource("4_oruww")
 6:5/0 = 0
 7:5/0 = 0
 8:5/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_pv6ne"]
+texture = ExtResource("5_77bbh")
+texture_region_size = Vector2i(32, 32)
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+3:0/0 = 0
+4:0/0 = 0
+5:0/0 = 0
+6:0/0 = 0
+7:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
+2:1/0 = 0
+3:1/0 = 0
+4:1/0 = 0
+5:1/0 = 0
+6:1/0 = 0
+7:1/0 = 0
+0:2/0 = 0
+1:2/0 = 0
+2:2/0 = 0
+3:2/0 = 0
+4:2/0 = 0
+5:2/0 = 0
+6:2/0 = 0
+7:2/0 = 0
+0:3/0 = 0
+1:3/0 = 0
+2:3/0 = 0
+3:3/0 = 0
+4:3/0 = 0
+5:3/0 = 0
+6:3/0 = 0
+7:3/0 = 0
+0:4/0 = 0
+1:4/0 = 0
+2:4/0 = 0
+3:4/0 = 0
+4:4/0 = 0
+5:4/0 = 0
+6:4/0 = 0
+7:4/0 = 0
+0:5/0 = 0
+1:5/0 = 0
+2:5/0 = 0
+3:5/0 = 0
+4:5/0 = 0
+5:5/0 = 0
+6:5/0 = 0
+7:5/0 = 0
+0:6/0 = 0
+1:6/0 = 0
+2:6/0 = 0
+3:6/0 = 0
+4:6/0 = 0
+5:6/0 = 0
+6:6/0 = 0
+7:6/0 = 0
+0:7/0 = 0
+1:7/0 = 0
+2:7/0 = 0
+3:7/0 = 0
+4:7/0 = 0
+5:7/0 = 0
+6:7/0 = 0
+7:7/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ejj6m"]
+texture = ExtResource("6_v1yyw")
+texture_region_size = Vector2i(32, 32)
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+3:0/0 = 0
+4:0/0 = 0
+5:0/0 = 0
+6:0/0 = 0
+7:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
+2:1/0 = 0
+3:1/0 = 0
+4:1/0 = 0
+5:1/0 = 0
+6:1/0 = 0
+7:1/0 = 0
+0:2/0 = 0
+1:2/0 = 0
+2:2/0 = 0
+3:2/0 = 0
+4:2/0 = 0
+5:2/0 = 0
+6:2/0 = 0
+7:2/0 = 0
+0:3/0 = 0
+1:3/0 = 0
+2:3/0 = 0
+3:3/0 = 0
+4:3/0 = 0
+5:3/0 = 0
+6:3/0 = 0
+7:3/0 = 0
+0:4/0 = 0
+1:4/0 = 0
+2:4/0 = 0
+3:4/0 = 0
+4:4/0 = 0
+5:4/0 = 0
+6:4/0 = 0
+7:4/0 = 0
+0:5/0 = 0
+1:5/0 = 0
+2:5/0 = 0
+3:5/0 = 0
+4:5/0 = 0
+5:5/0 = 0
+6:5/0 = 0
+7:5/0 = 0
+0:6/0 = 0
+1:6/0 = 0
+2:6/0 = 0
+3:6/0 = 0
+4:6/0 = 0
+5:6/0 = 0
+6:6/0 = 0
+7:6/0 = 0
+0:7/0 = 0
+1:7/0 = 0
+2:7/0 = 0
+3:7/0 = 0
+4:7/0 = 0
+5:7/0 = 0
+6:7/0 = 0
+7:7/0 = 0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_07osn"]
 texture = ExtResource("1_f3mgn")
@@ -3264,3 +3402,5 @@ sources/9 = SubResource("TileSetAtlasSource_8lodo")
 sources/10 = SubResource("TileSetAtlasSource_fa0k2")
 sources/11 = SubResource("TileSetAtlasSource_p64be")
 sources/8 = SubResource("TileSetAtlasSource_fk6gc")
+sources/12 = SubResource("TileSetAtlasSource_pv6ne")
+sources/13 = SubResource("TileSetAtlasSource_ejj6m")
