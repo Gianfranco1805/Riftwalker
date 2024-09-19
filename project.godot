@@ -23,3 +23,7 @@ window/size/viewport_height=270
 [dotnet]
 
 project/assembly_name="Riftwalker"
+
+[physics]
+
+2d/default_gravity=0.0

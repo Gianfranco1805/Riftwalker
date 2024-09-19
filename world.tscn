@@ -1,7 +1,6 @@
-[gd_scene load_steps=3 format=4 uid="uid://cfww8mcvwu1tu"]
+[gd_scene load_steps=2 format=4 uid="uid://cfww8mcvwu1tu"]
 
 [ext_resource type="TileSet" uid="uid://dp4x5x2a1xjyd" path="res://tileSet.tres" id="1_ryghw"]
-[ext_resource type="Script" path="res://Generation.cs" id="2_c5ndu"]
 
 [node name="WORLD" type="Node2D"]
 
@@ -25,6 +24,3 @@ tile_set = ExtResource("1_ryghw")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(238, 130)
-
-[node name="Generation" type="Node" parent="."]
-script = ExtResource("2_c5ndu")
