@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://1485i60dvtud"]
+
+[ext_resource type="Script" path="res://main.gd" id="1_23eb8"]
+[ext_resource type="TileSet" uid="uid://dp4x5x2a1xjyd" path="res://tileSet.tres" id="2_75736"]
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_23eb8")
+
+[node name="Rooms" type="Node" parent="."]
+
+[node name="TileMap" type="TileMap" parent="."]
+tile_set = ExtResource("2_75736")
+format = 2
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(0.1, 0.1)
