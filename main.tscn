@@ -11,6 +11,13 @@ script = ExtResource("1_23eb8")
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = ExtResource("2_75736")
 format = 2
+layer_1/name = "Layer1"
+
+[node name="base" type="TileMapLayer" parent="TileMap"]
+tile_set = ExtResource("2_75736")
+
+[node name="foliage" type="TileMapLayer" parent="TileMap"]
+tile_set = ExtResource("2_75736")
 
 [node name="Camera2D" type="Camera2D" parent="."]
-zoom = Vector2(0.1, 0.1)
+zoom = Vector2(0.5, 0.5)

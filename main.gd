@@ -12,7 +12,11 @@ var horizontalSpread = 0
 var cull = 0.5
 
 var path # A* pathfiunding object
+var layers_dict = {}
 
+
+
+	
 func _ready():
 	randomize()
 	make_many_rooms()
@@ -105,11 +109,14 @@ func make_map():
 	var corridors = [] #one corridor per connection
 	for room in $Rooms.get_children():
 		var s = (room.size / tileSize).floor()
-		var pos = map.local_to_map(room.position)
 		var ul = (room.position / tileSize).floor() - s
 		for x in range(2, s.x * 2 - 1):
 			for y in range(2, s.y * 2 - 1):	
 				map.set_cell(0, Vector2i(ul.x + x, ul.y + y), 12, Vector2i(0, 0), 0) 
+				map.set_cell(1, Vector2i(ul.x + x, ul.y + y), 5, Vector2i(0, 0), 0)
+				
+				
+				
 		#carve the connection
 		var p = path.get_closest_point(Vector2(room.position.x, room.position.y))
 		for conn in path.get_point_connections(p):
