@@ -34,6 +34,12 @@ func _ready():
 	find_start_room()
 	find_end_room()
 	_draw()
+	await get_tree().create_timer(2).timeout
+	make_map()
+	spawn_player()
+	for i in $Rooms.get_children():
+		make_enemy_spawn(Vector2(i.position.x, i.position.y))
+	
 var roomPositions = []
 
 func make_many_rooms():
@@ -88,10 +94,8 @@ func _input(event):
 		make_many_rooms()
 	if event.is_action_pressed('ui_focus_next'):
 		make_map()
-	if event.is_action_pressed('ui_cancel'):
-		player = Player.instantiate()
-		add_child(player)
-		player.position = start_room.position
+	#if event.is_action_pressed('ui_cancel'):
+		
 	if event.is_action_pressed("ui_accept"):
 		for i in $Rooms.get_children():
 			#roomPositions.append(Vector2(i.position.x, i.position.y))
@@ -235,6 +239,9 @@ func make_enemy_spawn(pos):
 	enemySpawn.position = pos
 	
 		#for j in roomPositions:
-			
-		
-	
+					
+
+func spawn_player():
+	player = Player.instantiate()
+	add_child(player)
+	player.position = start_room.position
