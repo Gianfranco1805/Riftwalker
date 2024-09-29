@@ -4,11 +4,14 @@ extends Node2D
 var Room = preload("res://room.tscn")
 var Player = preload("res://player.tscn")
 @onready var map = $TileMap
+@onready var mapLayer = $TileMap/grass
+@onready var waterLayer = $TileMap/water
+@onready var corridorLayer = $TileMap/corridor
 
 var tileSize = 32
-var numberOfRooms = 25
-var minSize = 4
-var maxSize = 10
+var numberOfRooms = 9
+var minSize = 10
+var maxSize = 20
 var horizontalSpread = 500
 var cull = 0.5
 
@@ -26,8 +29,8 @@ var dirtTiles = []
 func _ready():
 	randomize()
 	make_many_rooms()
-	find_start_room()
 	await get_tree().create_timer(2).timeout
+	find_start_room()
 	find_end_room()
 	_draw()
 var roomPositions = []
@@ -129,18 +132,23 @@ func make_map():
 	var bottomRight = map.local_to_map(fullRectangle.end)
 	for x in range(topLeft.x, bottomRight.x):
 		for y in range(topLeft.y, bottomRight.y):
-			map.set_cell(0, Vector2i(x, y), 13, Vector2i(0,0), 0)
+			#waterLayer.set_cell(0, Vector2i(x, y), 13, Vector2i(0,0), 0)
+			BetterTerrain.set_cell(waterLayer,Vector2i(x,y),1)
 	
 	#carve the rooms
 	var corridors = [] #one corridor per connection
 	for room in $Rooms.get_children():
 		var s = (room.size / tileSize).floor()
 		var ul = (room.position / tileSize).floor() - s
-		for x in range(2, s.x * 2 - 1):
-			for y in range(2, s.y * 2 - 1):
-				map.set_cell(0, Vector2i(ul.x + x, ul.y + y), 12, Vector2i(0, 0), 0)
+		for x in range(2, s.x * 3 - 1):
+			for y in range(2, s.y * 3 - 1):
+				
+				#map.set_cell(0, Vector2i(ul.x + x, ul.y + y), 12, Vector2i(0, 0), 0)
+				BetterTerrain.set_cell(mapLayer,Vector2i(ul.x + x, ul.y + y),0)
+				BetterTerrain.update_terrain_cell(mapLayer,Vector2i(ul.x + x, ul.y + y))
+				
 				#map.set_cells_terrain_connect(0, roomPositions, 1, 0, bool = true)
-				map.set_cell(0, Vector2i(ul.x + x +1, ul.y + y + 1), 0 , Vector2i(1 , 4))
+				#map.set_cell(0, Vector2i(ul.x + x +1, ul.y + y + 1), 0 , Vector2i(1 , 4))
 				#map.set_cell(0, Vector2i(ul.x + x - 1, ul.y + y - 1), 0, Vector2i(1,4))
 		#for i in range(room.position.x - 1, bottomRight.x) :
 			#for j in range(room.position. x - 1 , bottomRight.y):
@@ -158,6 +166,7 @@ func make_map():
 				carve_path(start, end)
 			corridors.append(p)
 			room.get_node("CollisionShape2D").disabled = true
+		
 
 func carve_path(pos1, pos2):
 	#carve a pth between two points
@@ -174,13 +183,21 @@ func carve_path(pos1, pos2):
 		xY = pos2
 		yX = pos1
 	for x in range(pos1.x, pos2.x, xDiff):
-		map.set_cell(0, Vector2i(x, xY.y), 12, Vector2i(0, 0), 0)
-		map.set_cell(0, Vector2i(x, xY.y + yDiff), 12, Vector2i(0, 0), 0) #widen the corridors
-		map.set_cell(0, Vector2i(x, xY.y - yDiff), 12, Vector2i(0, 0), 0)
+		BetterTerrain.set_cell(mapLayer,Vector2i(x, xY.y),0)
+		BetterTerrain.update_terrain_cell(mapLayer,Vector2i(x,xY.y))
+		BetterTerrain.set_cell(mapLayer,Vector2i(x, xY.y + yDiff),0) #widen the corridors
+		BetterTerrain.update_terrain_cell(mapLayer,Vector2i(x, xY.y + yDiff))
+		BetterTerrain.set_cell(mapLayer,Vector2i(x, xY.y - yDiff),0)
+		BetterTerrain.update_terrain_cell(mapLayer,Vector2i(x, xY.y - yDiff))
+
+		
 	for y in range(pos1.y, pos2.y, yDiff):
-		map.set_cell(0, Vector2i(yX.x, y), 12, Vector2i(0, 0), 0)
-		map.set_cell(0, Vector2i(yX.x + xDiff, y ), 12, Vector2i(0, 0), 0)
-		map.set_cell(0, Vector2i(yX.x - xDiff, y), 12, Vector2i(0, 0), 0)
+		BetterTerrain.set_cell(mapLayer,Vector2i(yX.x, y),0)
+		BetterTerrain.update_terrain_cell(mapLayer,Vector2i(yX.x, y))
+		BetterTerrain.set_cell(mapLayer,Vector2i(yX.x + xDiff, y ),0)
+		BetterTerrain.update_terrain_cell(mapLayer,Vector2i(yX.x + xDiff, y))
+		BetterTerrain.set_cell(mapLayer,Vector2i(yX.x - xDiff, y),0)
+		BetterTerrain.update_terrain_cell(mapLayer,Vector2i(yX.x - xDiff, y))
 
 func find_start_room():
 	var min_x = INF 

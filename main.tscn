@@ -8,5 +8,15 @@ script = ExtResource("1_23eb8")
 
 [node name="Rooms" type="Node" parent="."]
 
-[node name="TileMap" type="TileMapLayer" parent="."]
+[node name="TileMap" type="TileMap" parent="."]
+tile_set = ExtResource("2_75736")
+format = 2
+
+[node name="water" type="TileMapLayer" parent="TileMap"]
+tile_set = ExtResource("2_75736")
+
+[node name="grass" type="TileMapLayer" parent="TileMap"]
+tile_set = ExtResource("2_75736")
+
+[node name="corridor" type="TileMapLayer" parent="TileMap"]
 tile_set = ExtResource("2_75736")
