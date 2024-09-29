@@ -3,6 +3,7 @@
 [ext_resource type="Script" path="res://room.gd" id="1_t7wsn"]
 
 [node name="Room" type="RigidBody2D"]
+lock_rotation = true
 script = ExtResource("1_t7wsn")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
