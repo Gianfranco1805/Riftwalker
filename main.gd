@@ -2,17 +2,23 @@ extends Node2D
 
 
 var Room = preload("res://room.tscn")
+var Player = preload("res://player.tscn")
 @onready var map = $TileMap
 
 var tileSize = 32
-var numberOfRooms = 20
+var numberOfRooms = 25
 var minSize = 4
-var maxSize = 1
-var horizontalSpread = 0
+var maxSize = 10
+var horizontalSpread = 500
 var cull = 0.5
 
 var path # A* pathfiunding object
-var layers_dict = {}
+
+var start_room = null
+var end_room = null
+var player = null
+
+var dirtTiles = []
 
 
 
@@ -20,6 +26,11 @@ var layers_dict = {}
 func _ready():
 	randomize()
 	make_many_rooms()
+	find_start_room()
+	await get_tree().create_timer(2).timeout
+	find_end_room()
+	_draw()
+var roomPositions = []
 
 func make_many_rooms():
 	for i in range(numberOfRooms):
@@ -32,7 +43,7 @@ func make_many_rooms():
 	#wait for the rooms to spread
 	await get_tree().create_timer(1.1).timeout
 	#cull rooms
-	var roomPositions = []
+	
 	for room in $Rooms.get_children():
 		if randf() < cull:
 			room.queue_free()
@@ -42,8 +53,14 @@ func make_many_rooms():
 	await get_tree().process_frame
 	#generate a MST
 	path = find_mst(roomPositions)
-
+	
 func _draw():
+	var default_font = ThemeDB.fallback_font
+	var default_font_size = ThemeDB.fallback_font_size
+	#if start_room:
+		#draw_string(default_font, start_room.position, "Start", HORIZONTAL_ALIGNMENT_LEFT, -1 ,125, Color(1, 1, 1))
+	#if end_room:
+		#draw_string(default_font, end_room.position, "End", HORIZONTAL_ALIGNMENT_LEFT, -1 , 125, Color(1,1,1))
 	for room in $Rooms.get_children():
 		draw_rect(Rect2(room.position - room.size, room.size * 2), Color(0, 1, 0, 1), false)
 	if path:
@@ -61,9 +78,17 @@ func _input(event):
 		for n in $Rooms.get_children():
 			n.queue_free()
 		path = null
+		start_room = null
+		end_room = null
 		make_many_rooms()
 	if event.is_action_pressed('ui_focus_next'):
 		make_map()
+	if event.is_action('ui_cancel'):
+		player = Player.instantiate()
+		add_child(player)
+		player.position = start_room.position
+		
+		
 
 func find_mst(nodes):
 	#Prim's algorithm
@@ -105,15 +130,22 @@ func make_map():
 	for x in range(topLeft.x, bottomRight.x):
 		for y in range(topLeft.y, bottomRight.y):
 			map.set_cell(0, Vector2i(x, y), 13, Vector2i(0,0), 0)
+	
 	#carve the rooms
 	var corridors = [] #one corridor per connection
 	for room in $Rooms.get_children():
 		var s = (room.size / tileSize).floor()
 		var ul = (room.position / tileSize).floor() - s
 		for x in range(2, s.x * 2 - 1):
-			for y in range(2, s.y * 2 - 1):	
-				map.set_cell(0, Vector2i(ul.x + x, ul.y + y), 12, Vector2i(0, 0), 0) 
-				map.set_cell(1, Vector2i(ul.x + x, ul.y + y), 5, Vector2i(0, 0), 0)
+			for y in range(2, s.y * 2 - 1):
+				map.set_cell(0, Vector2i(ul.x + x, ul.y + y), 12, Vector2i(0, 0), 0)
+				#map.set_cells_terrain_connect(0, roomPositions, 1, 0, bool = true)
+				map.set_cell(0, Vector2i(ul.x + x +1, ul.y + y + 1), 0 , Vector2i(1 , 4))
+				#map.set_cell(0, Vector2i(ul.x + x - 1, ul.y + y - 1), 0, Vector2i(1,4))
+		#for i in range(room.position.x - 1, bottomRight.x) :
+			#for j in range(room.position. x - 1 , bottomRight.y):
+				#map.set_cell(0, Vector2i(i , j), 0, Vector2i(1, 4), 0)
+				
 				
 				
 				
@@ -125,6 +157,7 @@ func make_map():
 				var end = map.local_to_map(Vector2(path.get_point_position(conn).x, path.get_point_position(conn).y))
 				carve_path(start, end)
 			corridors.append(p)
+			room.get_node("CollisionShape2D").disabled = true
 
 func carve_path(pos1, pos2):
 	#carve a pth between two points
@@ -143,6 +176,21 @@ func carve_path(pos1, pos2):
 	for x in range(pos1.x, pos2.x, xDiff):
 		map.set_cell(0, Vector2i(x, xY.y), 12, Vector2i(0, 0), 0)
 		map.set_cell(0, Vector2i(x, xY.y + yDiff), 12, Vector2i(0, 0), 0) #widen the corridors
+		map.set_cell(0, Vector2i(x, xY.y - yDiff), 12, Vector2i(0, 0), 0)
 	for y in range(pos1.y, pos2.y, yDiff):
 		map.set_cell(0, Vector2i(yX.x, y), 12, Vector2i(0, 0), 0)
-		map.set_cell(0, Vector2i(yX.x + xDiff, y), 12, Vector2i(0, 0), 0)
+		map.set_cell(0, Vector2i(yX.x + xDiff, y ), 12, Vector2i(0, 0), 0)
+		map.set_cell(0, Vector2i(yX.x - xDiff, y), 12, Vector2i(0, 0), 0)
+
+func find_start_room():
+	var min_x = INF 
+	for room in $Rooms.get_children():
+		if room.position.x < min_x: 
+			start_room = room
+			min_x = room.position.x
+func find_end_room():
+	var max_x = -INF
+	for room in $Rooms.get_children():
+		if room.position.x > max_x:
+			end_room = room
+			max_x = room.position.x

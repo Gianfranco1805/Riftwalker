@@ -1,34 +1,35 @@
+using System.Security.Cryptography.X509Certificates;
 using Godot;
-using System;
 
-public partial class Character : Sprite2D
+public partial class Character : CharacterBody2D
 {
-	// Called when the node enters the scene tree for the first time.
+	float FRICTION = 0.15f;
+
+	[Export]
+	int acceleration = 100;
+
+	[Export]
+	int max_speed = 200;
+
+	public AnimatedSprite2D AnimatedSprite;
+
 	public override void _Ready()
 	{
+		AnimatedSprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 	}
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
+	public Vector2 mov_direction = Vector2.Zero;
+
+	public override void _PhysicsProcess(double delta)
 	{
-		int baseSpeed = 5;
-		if (Input.IsKeyPressed(Key.W))
-		{
-			this.Position += new Vector2(0, -baseSpeed);
-		}
-		if (Input.IsKeyPressed(Key.S))
-		{
-			this.Position += new Vector2(0, baseSpeed);
-		}
-		if (Input.IsKeyPressed(Key.A))
-		{
-			this.Position += new Vector2(-baseSpeed, 0);
-		}
-		if (Input.IsKeyPressed(Key.D))
-		{
-			this.Position += new Vector2(baseSpeed, 0);
-		}
+		MoveAndSlide();
+		Velocity = Velocity.Lerp(Vector2.Zero, FRICTION);
+	}
 
-
+	public void Move()
+	{
+		mov_direction = mov_direction.Normalized();
+		Velocity += mov_direction * acceleration;
+		Velocity = Velocity.LimitLength(max_speed);
 	}
 }
