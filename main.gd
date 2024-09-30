@@ -7,6 +7,7 @@ var Player = preload("res://player.tscn")
 @onready var mapLayer = $TileMap/grass
 @onready var waterLayer = $TileMap/water
 @onready var corridorLayer = $TileMap/corridor
+var Enemy = preload("res://scenes/Raydel.tscn")
 
 var tileSize = 32
 var numberOfRooms = 9
@@ -33,6 +34,12 @@ func _ready():
 	find_start_room()
 	find_end_room()
 	_draw()
+	await get_tree().create_timer(2).timeout
+	make_map()
+	spawn_player()
+	for i in $Rooms.get_children():
+		make_enemy_spawn(Vector2(i.position.x, i.position.y))
+	
 var roomPositions = []
 
 func make_many_rooms():
@@ -56,6 +63,7 @@ func make_many_rooms():
 	await get_tree().process_frame
 	#generate a MST
 	path = find_mst(roomPositions)
+	
 	
 func _draw():
 	var default_font = ThemeDB.fallback_font
@@ -86,10 +94,21 @@ func _input(event):
 		make_many_rooms()
 	if event.is_action_pressed('ui_focus_next'):
 		make_map()
-	if event.is_action('ui_cancel'):
-		player = Player.instantiate()
-		add_child(player)
-		player.position = start_room.position
+	#if event.is_action_pressed('ui_cancel'):
+		
+	if event.is_action_pressed("ui_accept"):
+		for i in $Rooms.get_children():
+			#roomPositions.append(Vector2(i.position.x, i.position.y))
+			make_enemy_spawn(Vector2(i.position.x, i.position.y))
+		
+		
+
+			#print(roomPositions)
+			#for j in roomPositions:
+				#var enemySpawn = Enemy.instantiate()
+				#add_child(enemySpawn)
+				#enemySpawn.apply_floor_snap()
+		
 		
 		
 
@@ -126,6 +145,7 @@ func make_map():
 	#fill tielemap with walls and then carve with empty rooms
 	var fullRectangle = Rect2()
 	for room in $Rooms.get_children():
+		
 		var r = Rect2(room.position - room.size, room.get_node("CollisionShape2D").shape.extents * 2)
 		fullRectangle = fullRectangle.merge(r)
 	var topLeft = map.local_to_map(fullRectangle.position)
@@ -138,6 +158,7 @@ func make_map():
 	#carve the rooms
 	var corridors = [] #one corridor per connection
 	for room in $Rooms.get_children():
+		
 		var s = (room.size / tileSize).floor()
 		var ul = (room.position / tileSize).floor() - s
 		for x in range(2, s.x * 3 - 1):
@@ -211,5 +232,16 @@ func find_end_room():
 		if room.position.x > max_x:
 			end_room = room
 			max_x = room.position.x
-func place_monsters():
-	var 
+
+func make_enemy_spawn(pos):
+	var enemySpawn = Enemy.instantiate()
+	add_child(enemySpawn)
+	enemySpawn.position = pos
+	
+		#for j in roomPositions:
+					
+
+func spawn_player():
+	player = Player.instantiate()
+	add_child(player)
+	player.position = start_room.position
